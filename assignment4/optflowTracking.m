@@ -39,7 +39,7 @@ for i = 1:size(im, 3)-1             % Iterate through images
         y               = uint16(round(pointsy(i, j)));
         
         % Determine for patch around specified point
-        ptch            = 5;
+        ptch            = uint16(7);
         A1              = Ix((y-ptch):(y+ptch), (x-ptch):(x+ptch), i);
         A2              = Iy((y-ptch):(y+ptch), (x-ptch):(x+ptch), i);
         A               = [A1(:) A2(:)];
@@ -58,17 +58,6 @@ for i = 1:size(im, 3)-1             % Iterate through images
         plot(pointsx(i, :), pointsy(i, :), '.g')    % Flow points
         plot(pts((2*i-1), :), pts((2*i), :), '.r')      % Ground truth points
         line([pointsx(i, :); pts((2*i-1), :)], [pointsy(i, :); pts((2*i), :)])
-    
-
-    %     % Euclidian distance per frame
-    %     dis_x = pointsx(i, :) - pts(2*i-1, :);
-    %     dis_y = pointsy(i, :) - pts(2*i, :);
-    %     subplot(1, 2, 2)
-    %     eudis=sqrt((dis_x).^2+(dis_y).^2);
-    %     LS=sum(eudis,2);
-    %     plot(LS)
-    %     xlabel('image #')
-    %     ylabel('sum of LS-error')
     
         frame = getframe;
         writeVideo(writerObj, frame);

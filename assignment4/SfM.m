@@ -12,19 +12,22 @@
 % Date: 29-04-2018
 % Authors: Bas Buller & Rick Feith
 
-function SfM(pts, plot)
+function S = SfM(pts)
 % Determine SVD composition and reduce to rank 3
-[U, W, V]   = svd(flwPts);
+[U, W, V]   = svd(pts);
 U3          = U(:, 1:3);
 W3          = W(1:3, 1:3);
+V           = V';
 V3          = V(1:3, :);
     
 M           = U3 * sqrt(W3);
-S           = sqrt(W3) *  V3';
+S           = sqrt(W3) *  V3;
+
+save('M', 'M');
 
 % resolve affine ambiguity
-A           =  
-L0          =
+A           = zeros(2, 3);
+L0          = zeros(3, 3);
 
 % Solve for L
 L           = lsqnonlin(@myfun, L0);
@@ -35,5 +38,4 @@ C           = chol(L, 'lower');
 % Update M and S
 M           = M*C;
 S           = pinv(C)*S;
-
 end

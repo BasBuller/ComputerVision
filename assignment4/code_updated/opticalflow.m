@@ -48,7 +48,7 @@ for i=0:hDevide-1
         % make a matrix consisting of derivatives along the patch
         A1 = Ix((15*i+1):(15*(i+1)), (15*j+1):(15*(j+1)));
         A2 = Iy((15*i+1):(15*(i+1)), (15*j+1):(15*(j+1)));
-        A =  [A1(:) A2(:)]
+        A  =  [A1(:) A2(:)];
         % make b matrix consisting of derivatives in time
         b = It((15*i+1):(15*(i+1)), (15*j+1):(15*(j+1)));
         v = (pinv(A'*A)) * A'*b(:);
