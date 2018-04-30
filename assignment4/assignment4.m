@@ -67,6 +67,7 @@ Strue             = SfM(truePts);
 
 figure()
 plot3(Strue(1,:), Strue(2,:), Strue(3,:), '.g')
+hold on
 
 
 
