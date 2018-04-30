@@ -12,7 +12,7 @@ synth2      = 'synth2.pgm';
 
 sigma       = 1;                    % Sigma value for the derivative filter
 spacing     = 15;                   % Size of square patches for optical flow
-plot        = 1;                    % set 1 to generate plot, set 0 for nothing
+plot        = 0;                    % set 1 to generate plot, set 0 for nothing
 
 
 %% Basic Optical Flow between 2 images
@@ -21,11 +21,11 @@ plot        = 1;                    % set 1 to generate plot, set 0 for nothing
 
 
 %% Optical Flow Tracking of House Images
-plot            = 0;
+plot            = 1;
 [truePts, truePtsC]     = readMatrix();
 
 for i = 1:101
-    imLoc       = ['model_house\frame' num2str(i, '%08d') '.jpg'];
+    imLoc       = ['model_house/frame' num2str(i, '%08d') '.jpg'];
     im          = readImage(imLoc);
     if i == 1
         imF     = zeros(size(im, 1), size(im, 2), 101);

@@ -35,20 +35,20 @@ end
 
 for i = 1:size(im, 3)-1             % Iterate through images
     for j = 1:size(pts, 2)          % Iterate through points  
-        x               = round(pointsx(i, j));
-        y               = round(pointsy(i, j));
+        x               = uint16(round(pointsx(i, j)));
+        y               = uint16(round(pointsy(i, j)));
         
         % Determine for patch around specified point
-        ptch            = 8;
-        A1              = Ix(y-ptch:y+ptch, x-ptch:x+ptch, i);
-        A2              = Iy(y-ptch:y+ptch, x-ptch:x+ptch, i);
+        ptch            = 5;
+        A1              = Ix((y-ptch):(y+ptch), (x-ptch):(x+ptch), i);
+        A2              = Iy((y-ptch):(y+ptch), (x-ptch):(x+ptch), i);
         A               = [A1(:) A2(:)];
-        b               = -1.*It(y-ptch:y+ptch, x-ptch:x+ptch, i);
+        b               = It((y-ptch):(y+ptch), (x-ptch):(x+ptch), i);
         b               = b(:);
         
-        v               = (A'*A)\A'*b;
-        pointsx(i+1, j)    = pointsx(i, j) + v(1);          % Something is going wrong in these lines, the flow points do not match well with the ground truth, they move in random directions it seems
-        pointsy(i+1, j)    = pointsy(i, j) + v(2);
+        v               = pinv(A'*A)*(A')*b;
+        pointsx(i+1, j)    = x + v(1);          % Something is going wrong in these lines, the flow points do not match well with the ground truth, they move in random directions it seems
+        pointsy(i+1, j)    = y + v(2);
     end
     
     if plt == 1
@@ -56,8 +56,8 @@ for i = 1:size(im, 3)-1             % Iterate through images
         imshow(im(:,:,i), [])
         hold on
         plot(pointsx(i, :), pointsy(i, :), '.g')    % Flow points
-        plot(pts(2*i-1, :), pts(2*i, :), '.r')      % Ground truth points
-        line([pointsx(i, :); pts(2*i-1, :)], [pointsy(i, :); pts(2*i, :)])
+        plot(pts((2*i-1), :), pts((2*i), :), '.r')      % Ground truth points
+        line([pointsx(i, :); pts((2*i-1), :)], [pointsy(i, :); pts((2*i), :)])
     
 
     %     % Euclidian distance per frame
