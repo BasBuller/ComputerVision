@@ -33,7 +33,7 @@ for y = 0:vSections-1
         ItWindow    = It((spacing*y+1):(spacing*(y+1)), (spacing*x+1):(spacing*(x+1)));
         
         A           = [IxWindow(:) IyWindow(:)];
-        b           = ItWindow(:);        
+        b           = -ItWindow(:);        
         v           = pinv(A'*A)*(A')*b;
             
         F(y+1, x+1, 1)  = v(1);
