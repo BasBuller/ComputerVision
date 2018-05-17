@@ -1,6 +1,0 @@
-function [average, average_dist] = check_normalize(x,y)
-average = mean(x) + mean(y);
-
-average_di
-
-end

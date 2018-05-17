@@ -31,23 +31,40 @@ im2txt = './TeddyBearPNG/obj02_002.png.haraff.sift';
 %% match descriptors
 [matches, scores] = vl_ubcmatch (desc1' , desc2');
 
-match1 = matches(1,1:20);
-match2 = matches(2,1:20);
+match1 = matches(1,:);
+match2 = matches(2,:);
+x1m  = x1(match1(:));
+y1m  = y1(match1(:));
+x2m  = x2(match2(:));
+y2m  = y2(match2(:));
 
 %% find fundamental matrix
 
-[F,Ff] = fundamentalMatrix(x1,y1,x2,y2,match1,match2);
+[F] = fundamentalMatrix(x1m,y1m,x2m,y2m);
 %% Normalize data
-[x1n,y1n,T] = normalize(x1,y1);
+[x1n,y1n,T1] = normalize(x1,y1);
 
 [x2n,y2n,T2] = normalize(x2,y2);
+
+x1nm  = x1n(match1(:));
+y1nm  = y1n(match1(:));
+x2nm  = x2n(match2(:));
+y2nm  = y2n(match2(:));
+
 
 [average1, dist1] = check_normalize(x1n,y1n);
 [average2, dist2] = check_normalize(x2n,y2n);
 
 
 %% calculate normalized fundamental matrix
-[Fn,Ffn] = fundamentalMatrix(x1n,y1n,x2n,y2n,match1,match2);
+[Fn] = fundamentalMatrix(x1nm,y1nm,x2nm,y2nm);
+
+%% Denormalize
+FD = T2' * Fn * T1; 
+
+%% RANSAC
+
+F = fundamentalRansac(x1nm, y1nm, x2nm, y2nm, 1000, 1);
 
 
-
+% (diag([x2 y2 ones(size(x2))]*F*[x1 y1 ones(size(x1))]'))
