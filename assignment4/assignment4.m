@@ -42,8 +42,8 @@ x   = 1:(size(imF, 3)-1);
 for i = 1:size(imF, 3)-1
     dis_x = pointsx(i, :) - truePts(2*i-1, :);
     dis_y = pointsy(i, :) - truePts(2*i, :);
-    eudis=sqrt((dis_x).^2+(dis_y).^2);
-    LS(i)=sum(eudis,2);
+    eudis=(dis_x).^2+(dis_y).^2;
+    LS(i)=sqrt(sum(eudis,2));
 end
 
 figure()
@@ -53,21 +53,22 @@ ylabel('sum of LS-error')
 
 
 %% Structure from Motion
-% % Generate complete D matrix with interest points from LKtracker
-% hFlw    = size(pointsx, 1) + size(ptsY, 1);
-% wFlw    = size(pointsy, 2);
-% flwPts  = zeros(hFlw, wFlw);
-%     
-% flwPts(1:2:end, :)  = pointsx;
-% flwPts(2:2:end, :)  = pointsy;
+% Generate complete D matrix with interest points from LKtracker
+hFlw    = size(pointsx, 1) + size(pointsy, 1);
+wFlw    = size(pointsy, 2);
+flwPts  = zeros(hFlw, wFlw);
+    
+flwPts(1:2:end, :)  = pointsx;
+flwPts(2:2:end, :)  = pointsy;
 
-% % Determine SfM plot for flow points and ground truth
-% Sflw              = SfM(flwPts);
+% Determine SfM plot for flow points and ground truth
+Sflw              = SfM(flwPts);
 Strue             = SfM(truePts);
 
 figure()
 plot3(Strue(1,:), Strue(2,:), Strue(3,:), '.g')
 hold on
+plot3(Sflw(1,:), Sflw(2,:), Sflw(3,:), '.r')
 
 
 
