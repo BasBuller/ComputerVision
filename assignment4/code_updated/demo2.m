@@ -21,7 +21,8 @@ close all
 Points = textread('model house\measurement_matrix.txt');
 % % %Shift the mean of the points to zero using "repmat" command
 
-
+numPts      = size(Points, 2);
+MC          = Points - repmat(sum(Points,2) / numPts, 1, numPts);
 % % %singular value decomposition
 [U,W,V] = svd(Points);
 

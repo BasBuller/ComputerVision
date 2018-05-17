@@ -18,14 +18,14 @@ Ix=zeros(size(im) - [0 0 1]);
 Iy=zeros(size(im) - [0 0 1]);
 
 %calculate the gaussian derivative
-G = 
-Gd = 
+% G = 
+Gd = gaussianDer(sigma);
 
 %find x,y and t derivative
 for i=1:size(im,3)-1
-    Ix(:,:,i)=
-    Iy(:,:,i)=
-    It(:,:,i)=
+    Ix(:,:,i)= conv2(im(:,:,i), Gd, 'same');
+    Iy(:,:,i)= conv2(im(:,:,i), Gd', 'same');
+    It(:,:,i)= im(:,:,i+1) - im(:,:,i);
 end
 
 % writerObj = VideoWriter('test.avi');
@@ -34,7 +34,7 @@ end
 for num = 1:size(im,3)-1 % iterating through images
     for i = 1:size(p,2) % iterating throught points
         % make a matrix consisting of derivatives around the pixel location
-        x =                      %%%center of the patch
+        x = p(num,i                     %%%center of the patch
         y =                      %%%center of the patch
         A1 = 
         A2 =

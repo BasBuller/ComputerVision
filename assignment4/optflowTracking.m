@@ -35,20 +35,20 @@ end
 
 for i = 1:size(im, 3)-1             % Iterate through images
     for j = 1:size(pts, 2)          % Iterate through points  
-        x               = uint16(round(pointsx(i, j)));
-        y               = uint16(round(pointsy(i, j)));
+        x               = int16((pointsx(i, j)));
+        y               = int16((pointsy(i, j)));
         
         % Determine for patch around specified point
-        ptch            = uint16(7);
+        ptch            = int16(7);
         A1              = Ix((y-ptch):(y+ptch), (x-ptch):(x+ptch), i);
         A2              = Iy((y-ptch):(y+ptch), (x-ptch):(x+ptch), i);
         A               = [A1(:) A2(:)];
         b               = It((y-ptch):(y+ptch), (x-ptch):(x+ptch), i);
-        b               = b(:);
+        b               = -b(:);
         
         v               = pinv(A'*A)*(A')*b;
-        pointsx(i+1, j)    = x + v(1);          % Something is going wrong in these lines, the flow points do not match well with the ground truth, they move in random directions it seems
-        pointsy(i+1, j)    = y + v(2);
+        pointsx(i+1, j)    = pointsx(i, j) + v(1);          % Something is going wrong in these lines, the flow points do not match well with the ground truth, they move in random directions it seems
+        pointsy(i+1, j)    = pointsy(i, j) + v(2);
     end
     
     if plt == 1
