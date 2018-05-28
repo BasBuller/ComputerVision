@@ -64,7 +64,9 @@ FD = T2' * Fn * T1;
 
 %% RANSAC
 
-F = fundamentalRansac(x1nm, y1nm, x2nm, y2nm, 1000, 1);
-
+[F,test] = fundamentalRansac(x1nm, y1nm, x2nm, y2nm, 1000, 1);
+FRD = T2' * F * T1; 
 
 % (diag([x2 y2 ones(size(x2))]*F*[x1 y1 ones(size(x1))]'))
+
+[lines] = epipolarLines(FRD, [x1nm(test),y1nm(test)]);
