@@ -4,6 +4,8 @@ run('../vlfeat-0.9.21/toolbox/vl_setup')
 %% read images and find sift features
 im1 = './TeddyBearPNG/obj02_001.png';
 im2 = './TeddyBearPNG/obj02_002.png';
+image1 = imread(im1);
+image2 = imread(im2);
 % command = '/home/rick/Documents/extract_features/extract_features.ln -haraff -i ./TeddyBearPNG/obj02_001.png -sift';
 % system(command)
 % command = '/home/rick/Documents/extract_features/extract_features.ln -haraff -i ./TeddyBearPNG/obj02_002.png -sift';
@@ -64,9 +66,20 @@ FD = T2' * Fn * T1;
 
 %% RANSAC
 
-[F,test] = fundamentalRansac(x1nm, y1nm, x2nm, y2nm, 1000, 1);
-FRD = T2' * F * T1; 
+[FR,test] = fundamentalRansac(x1nm, y1nm, x2nm, y2nm, 1000, 1e-4);
+FRD = T2' * FR * T1; 
 
 % (diag([x2 y2 ones(size(x2))]*F*[x1 y1 ones(size(x1))]'))
+%% plotting results
+[lines] = epipolarLine(FRD, [x2m(test),y2m(test)]);
+points = lineToBorderPoints(lines, size(image2));
 
-[lines] = epipolarLines(FRD, [x1nm(test),y1nm(test)]);
+figure()
+imshow(image2)
+hold on
+scatter(x2m(test),y2m(test),'r')
+
+figure()
+imshow(image1)
+hold on
+line(points(:,[1,3])',points(:,[2,4])');

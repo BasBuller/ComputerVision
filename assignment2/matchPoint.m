@@ -22,7 +22,7 @@ sLista = sa(sub2ind(size(imga),ra,ca));
 sListb = sb(sub2ind(size(imgb),rb,cb));
 
 %% describe features using sift
-run('../../vlfeat-0.9.21-bin/vlfeat-0.9.21/toolbox/vl_setup');
+% run('../../vlfeat-0.9.21-bin/vlfeat-0.9.21/toolbox/vl_setup');
 [fa,da] = vl_sift(imgas,'frames',[[ca'];[ra'];[2.*sLista+1]';[zeros(size(sLista))]'],'orientations');
 [fb,db] = vl_sift(imgbs,'frames',[[cb'];[rb'];[2.*sListb+1]';[zeros(size(sListb))]'],'orientations');
 
