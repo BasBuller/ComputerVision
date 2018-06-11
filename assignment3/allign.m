@@ -9,7 +9,7 @@ function [T, Tinv] = allign(ima, imb, P, threshold, N, amount, plot)
 
 % run('/home/bas/Documents/MATLAB/vlfeat-0.9.21/toolbox/vl_setup');
 %run('C:\Users\Bas\Documents\MATLAB\vlfeat-0.9.21\toolbox\vl_setup');
-run('../vlfeat-0.9.21-bin/vlfeat-0.9.21/toolbox/vl_setup')
+% run('../vlfeat-0.9.21-bin/vlfeat-0.9.21/toolbox/vl_setup')
 
 %% Load Images
 ima = readImage(ima);
